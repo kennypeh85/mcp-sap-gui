@@ -74,7 +74,23 @@ class SAPGUIControllerBase:
             pass  # Already initialized or not needed
 
     def _get_sap_gui(self):
-        """Get the SAP GUI automation object."""
+        """Get the SAP GUI automation object.
+
+        Detects stale COM references (e.g. after SAP GUI restart) and
+        automatically re-acquires a fresh object from the ROT.
+        """
+        if self._sap_gui_auto is not None:
+            # Verify the cached object is still alive with a lightweight probe
+            try:
+                _ = self._sap_gui_auto.GetScriptingEngine  # property – cheap
+            except Exception:
+                logger.info(
+                    "Cached SAP GUI COM reference is stale (SAP may have restarted). "
+                    "Re-acquiring…"
+                )
+                self._sap_gui_auto = None
+                self._application = None
+
         if self._sap_gui_auto is None:
             self._ensure_com_initialized()
             try:
@@ -365,6 +381,10 @@ class SAPGUIControllerBase:
         self._session = None
         self._connection = None
         self._owns_session = False
+        # Reset cached COM application/GUI references so the next
+        # call re-acquires them fresh (handles SAP restarts cleanly).
+        self._application = None
+        self._sap_gui_auto = None
         logger.info("Disconnected")
 
     def _find_session_by_id(self, session_id: str):

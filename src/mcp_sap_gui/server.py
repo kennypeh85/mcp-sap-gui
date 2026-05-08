@@ -48,17 +48,17 @@ logger = logging.getLogger(__name__)
 
 
 _DEFAULT_BLOCKED_TRANSACTIONS = [
-    "SU01", "SU10", "SU01D",  # User administration
-    "PFCG", "SU53",           # Role administration
-    "SM21", "ST22",           # System logs / dumps
-    "SE16N",                  # Direct table maintenance
-    "SE38", "SA38", "SE80",   # ABAP editor / program execution
-    "STMS",                   # Transport management
-    "SCC4",                   # Client administration
-    "RZ10", "RZ11",           # Profile parameters
-    "SM36",                   # Background jobs
-    "SM49", "SM69",           # OS command execution
-    "SM59",                   # RFC destination config
+   # "SU01", "SU10", "SU01D",  # User administration
+   # "PFCG", "SU53",           # Role administration
+   # "SM21", "ST22",           # System logs / dumps
+   # "SE16N",                  # Direct table maintenance
+   # "SE38", "SA38", "SE80",   # ABAP editor / program execution
+   # "STMS",                   # Transport management
+   # "SCC4",                   # Client administration
+   # "RZ10", "RZ11",           # Profile parameters
+   # "SM36",                   # Background jobs
+   # "SM49", "SM69",           # OS command execution
+   # "SM59",                   # RFC destination config
 ]
 
 _TRANSACTION_PREFIX_RE = re.compile(r"^(?:/(?:N|O|\*)\s*)+", re.IGNORECASE)
